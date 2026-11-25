@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>骏骏通知中转 · 配置</title>
+    <style>
+      :root {
+        --bg: #f5f6f8;
+        --card: #ffffff;
+        --text: #1f2329;
+        --muted: #6b7280;
+        --line: #e5e7eb;
+        --primary: #2b6de5;
+        --primary-hover: #1f5bcc;
+        --ok: #16a34a;
+        --warn: #d97706;
+        --danger: #dc2626;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 32px 16px 64px;
+        background: var(--bg);
+        color: var(--text);
+        font: 14px/1.6 "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+      }
+      .wrap {
+        max-width: 560px;
+        margin: 0 auto;
+      }
+      .head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: var(--primary);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 700;
+      }
+      h1 {
+        margin: 0;
+        font-size: 19px;
+        font-weight: 600;
+      }
+      .sub {
+        margin: 2px 0 0;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 14px;
+      }
+      .card h2 {
+        margin: 0 0 4px;
+        font-size: 15px;
+        font-weight: 600;
+      }
+      .card .desc {
+        margin: 0 0 16px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      label {
+        display: block;
+        margin-bottom: 14px;
+        font-size: 13px;
+        color: #374151;
+      }
+      label span {
+        display: block;
+        margin-bottom: 6px;
+      }
+      input[type="text"],
+      input[type="number"],
+      input[type="password"],
+      select {
+        width: 100%;
+        height: 38px;
+        padding: 0 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--text);
+        font: inherit;
+        outline: none;
+      }
+      input:focus,
+      select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(43, 109, 229, 0.12);
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+      }
+      .row > label {
+        flex: 1;
+      }
+      .switch {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 0 2px;
+        border-top: 1px dashed var(--line);
+        margin-top: 4px;
+      }
+      .switch span {
+        font-size: 13px;
+      }
+      .switch small {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--primary);
+      }
+      details {
+        margin-top: 4px;
+      }
+      summary {
+        cursor: pointer;
+        color: var(--primary);
+        font-size: 13px;
+        user-select: none;
+      }
+      .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+      }
+      button {
+        flex: 1;
+        height: 40px;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--text);
+        font: inherit;
+        cursor: pointer;
+      }
+      button:hover {
+        border-color: #cbd5e1;
+      }
+      button.primary {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #fff;
+      }
+      button.primary:hover {
+        background: var(--primary-hover);
+      }
+      button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 4px;
+      }
+      .chip {
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        background: #fafafa;
+      }
+      .chip.ok {
+        color: var(--ok);
+        border-color: #bbf7d0;
+        background: #f0fdf4;
+      }
+      .chip.off {
+        color: var(--warn);
+        border-color: #fde68a;
+        background: #fffbeb;
+      }
+      .toast {
+        display: none;
+        margin-top: 12px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .toast.show {
+        display: block;
+      }
+      .toast.ok {
+        background: #f0fdf4;
+        color: #166534;
+      }
+      .toast.err {
+        background: #fef2f2;
+        color: var(--danger);
+      }
+      .path {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 12px;
+        word-break: break-all;
+      }
+      .foot {
+        text-align: center;
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="head">
+        <div class="logo">骏</div>
+        <div>
+          <h1>骏骏通知中转</h1>
+          <p class="sub">本地配置页 · 仅本机可访问 · 15 分钟无操作自动关闭</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>推送状态</h2>
+        <p class="desc">配好任意一种通道即可收到通知，配多个会同时发送。</p>
+        <div class="chips">
+          <span class="chip" id="chip-meow">MeoW</span>
+          <span class="chip" id="chip-smtp">SMTP</span>
+          <span class="chip" id="chip-bark">Bark</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>鸿蒙 MeoW</h2>
+        <p class="desc">手机安装 MeoW App 后，填写里面设置的用户昵称。</p>
+        <label>
+          <span>用户昵称</span>
+          <input type="text" id="meowNickname" placeholder="例如：小明" autocomplete="off" />
+        </label>
+      </div>
+
+      <div class="card">
+        <details>
+          <summary>更多通道（可选）</summary>
+          <div style="margin-top: 16px">
+            <h2>Bark</h2>
+            <p class="desc">在 Bark App 里复制客户端 token。</p>
+            <label>
+              <span>Bark token</span>
+              <input type="text" id="barkToken" placeholder="留空表示不修改" autocomplete="off" />
+            </label>
+
+            <h2 style="margin-top: 8px">SMTP 邮箱</h2>
+            <p class="desc">QQ / 163 邮箱请使用授权码，不是登录密码。</p>
+            <div class="row">
+              <label>
+                <span>服务器</span>
+                <input type="text" id="smtpHost" placeholder="smtp.qq.com" autocomplete="off" />
+              </label>
+              <label style="max-width: 120px">
+                <span>端口</span>
+                <input type="number" id="smtpPort" placeholder="465" />
+              </label>
+            </div>
+            <label>
+              <span>加密方式</span>
+              <select id="smtpEncryption">
+                <option value="tls">tls（465）</option>
+                <option value="starttls">starttls（587）</option>
+                <option value="none">none（25）</option>
+              </select>
+            </label>
+            <label>
+              <span>账号</span>
+              <input type="text" id="smtpUsername" placeholder="通常与发件人相同" autocomplete="off" />
+            </label>
+            <label>
+              <span>授权码</span>
+              <input type="password" id="smtpPassword" placeholder="留空表示不修改" autocomplete="new-password" />
+            </label>
+            <div class="row">
+              <label>
+                <span>发件人</span>
+                <input type="text" id="smtpFromEmail" placeholder="you@qq.com" autocomplete="off" />
+              </label>
+              <label>
+                <span>收件人</span>
+                <input type="text" id="smtpToEmail" placeholder="you@qq.com" autocomplete="off" />
+              </label>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="actions">
+        <button id="saveBtn">仅保存</button>
+        <button id="testBtn" class="primary">保存并测试</button>
+      </div>
+
+      <div class="toast" id="toast"></div>
+      <div class="path" id="path"></div>
+      <div class="foot">配置文件里是明文凭据，请勿分享本页面链接。</div>
+    </div>
+
+    <script>
+      var token = new URLSearchParams(location.search).get('k') || ''
+
+      function api(path) {
+        return '/api/' + path + '?k=' + encodeURIComponent(token)
+      }
+
+      function toast(text, ok) {
+        var box = document.getElementById('toast')
+        box.textContent = text
+        box.className = 'toast show ' + (ok ? 'ok' : 'err')
+      }
+
+      function chip(id, label, configured) {
+        var el = document.getElementById(id)
+        el.textContent = label + (configured ? ' 已配置' : ' 未配置')
+        el.className = 'chip ' + (configured ? 'ok' : 'off')
+      }
+
+      function render(status) {
+        chip('chip-meow', 'MeoW', status.meow.configured)
+        chip('chip-smtp', 'SMTP', status.smtp.configured)
+        chip('chip-bark', 'Bark', status.bark.configured)
+        document.getElementById('path').textContent = '配置文件：' + status.configPath
+        if (status.meow.nickname) document.getElementById('meowNickname').value = status.meow.nickname
+        if (status.bark.configured) document.getElementById('barkToken').placeholder = '已设置（' + status.bark.token + '），留空表示不修改'
+        if (status.smtp.host) document.getElementById('smtpHost').value = status.smtp.host
+        if (status.smtp.toEmail) document.getElementById('smtpToEmail').value = status.smtp.toEmail
+      }
+
+      function collect() {
+        var payload = {}
+        var nickname = document.getElementById('meowNickname').value.trim()
+        if (nickname) payload.meowNickname = nickname
+        var bark = document.getElementById('barkToken').value.trim()
+        if (bark) payload.barkToken = bark
+        var host = document.getElementById('smtpHost').value.trim()
+        var port = document.getElementById('smtpPort').value
+        var username = document.getElementById('smtpUsername').value.trim()
+        var password = document.getElementById('smtpPassword').value
+        var from = document.getElementById('smtpFromEmail').value.trim()
+        var to = document.getElementById('smtpToEmail').value.trim()
+        if (host || port || username || password || from || to) {
+          payload.smtpHost = host
+          payload.smtpEncryption = document.getElementById('smtpEncryption').value
+          if (port) payload.smtpPort = Number(port)
+          if (username) payload.smtpUsername = username
+          if (password) payload.smtpPassword = password
+          if (from) payload.smtpFromEmail = from
+          if (to) payload.smtpToEmail = to
+        }
+        return payload
+      }
+
+      function setBusy(busy) {
+        document.getElementById('saveBtn').disabled = busy
+        document.getElementById('testBtn').disabled = busy
+      }
+
+      async function save() {
+        var response = await fetch(api('save'), {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(collect()),
+        })
+        var result = await response.json()
+        if (!result.ok) throw new Error(result.error || '保存失败')
+        render(result.status)
+        return result.status
+      }
+
+      document.getElementById('saveBtn').onclick = async function () {
+        setBusy(true)
+        try {
+          await save()
+          toast('已保存，配置立即生效。', true)
+        } catch (error) {
+          toast(error.message, false)
+        } finally {
+          setBusy(false)
+        }
+      }
+
+      document.getElementById('testBtn').onclick = async function () {
+        setBusy(true)
+        try {
+          var status = await save()
+          var enabled = status.meow.configured || status.smtp.configured || status.bark.configured
+          if (!enabled) {
+            toast('还没有可用的通道，请先填写 MeoW 昵称或其它通道。', false)
+            return
+          }
+          toast('正在发送测试通知…', true)
+          var response = await fetch(api('test'), { method: 'POST' })
+          var result = await response.json()
+          toast(result.text || (result.ok ? '测试通知已发送。' : '测试失败'), result.ok === true)
+        } catch (error) {
+          toast(error.message, false)
+        } finally {
+          setBusy(false)
+        }
+      }
+
+      fetch(api('status'))
+        .then(function (response) {
+          return response.json()
+        })
+        .then(function (result) {
+          if (!result.ok) throw new Error(result.error || '读取配置失败')
+          render(result.status)
+        })
+        .catch(function (error) {
+          toast(error.message, false)
+        })
+    </script>
+  </body>
+</html>

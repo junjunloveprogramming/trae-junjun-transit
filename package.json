@@ -1,0 +1,32 @@
+{
+  "name": "trae-junjun-transit",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "骏骏通知中转 · Trae 插件（MeoW / SMTP / Bark 三通道推送，零运行时依赖）",
+  "license": "MIT",
+  "author": "骏骏爱编程 (https://github.com/JunJunLoveProgramming)",
+  "homepage": "https://github.com/JunJunLoveProgramming/trae-junjun-transit",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JunJunLoveProgramming/trae-junjun-transit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JunJunLoveProgramming/trae-junjun-transit/issues"
+  },
+  "keywords": [
+    "trae",
+    "trae-plugin",
+    "notification",
+    "meow",
+    "harmonyos",
+    "bark",
+    "smtp",
+    "mcp"
+  ],
+  "engines": {
+    "node": ">=20.6"
+  },
+  "scripts": {
+    "test": "node test/smoke.mjs"
+  }
+}
